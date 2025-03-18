@@ -1,0 +1,11 @@
+com\hrapp\controller\AuthController.class
+com\hrapp\repository\EmployeeRepository.class
+com\hrapp\HrApplication.class
+com\hrapp\repository\UserRepository.class
+com\hrapp\model\User.class
+com\hrapp\model\Employee.class
+com\hrapp\controller\InternLeaveManagementController.class
+com\hrapp\model\LeaveType.class
+com\hrapp\model\LeaveTransaction.class
+com\hrapp\model\LeaveBalance.class
+com\hrapp\repository\LeaveBalanceRepository.class

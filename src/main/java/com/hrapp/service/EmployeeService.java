@@ -1,0 +1,96 @@
+package com.hrapp.service;
+
+import com.hrapp.model.Employee;
+import com.hrapp.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+
+@Service
+public class EmployeeService {
+    
+    @Autowired
+    private EmployeeRepository employeeRepository;
+    
+    @Autowired
+    private LeaveManagementService leaveManagementService;
+
+    @Transactional
+    public Employee saveEmployee(Employee employee) {
+        // Save the employee
+        Employee savedEmployee = employeeRepository.save(employee);
+        
+        // Initialize leave balance for new employee
+        leaveManagementService.initializeLeaveBalance(savedEmployee);
+        
+        return savedEmployee;
+    }
+
+    public List<Employee> getAllEmployees() {
+        return employeeRepository.findAll();
+    }
+
+    public Employee getEmployeeById(Long id) {
+        return employeeRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Employee not found"));
+    }
+
+    @Transactional
+    public Employee updateEmployee(Long id, Employee employee) {
+        Employee existingEmployee = getEmployeeById(id);
+        
+        existingEmployee.setEmployeeId(employee.getEmployeeId());
+        int availableLeaves = calculateMonthsPassed(employee.getJoiningDate());
+        System.out.println(availableLeaves+"credited leaves");
+        existingEmployee.setLeaves(availableLeaves);
+        existingEmployee.setFullName(employee.getFullName());
+        existingEmployee.setDesignation(employee.getDesignation());
+        existingEmployee.setDepartment(employee.getDepartment());
+        existingEmployee.setJoiningDate(employee.getJoiningDate());
+        existingEmployee.setDateOfBirth(employee.getDateOfBirth());
+        existingEmployee.setOfficialEmail(employee.getOfficialEmail());
+        existingEmployee.setPersonalEmail(employee.getPersonalEmail());
+        existingEmployee.setContactNo(employee.getContactNo());
+        Employee saved_emp = employeeRepository.save(existingEmployee);
+        leaveManagementService.initializeLeaveBalance(saved_emp);
+        return saved_emp;
+    }
+
+    public void deleteEmployee(Long id) {
+        employeeRepository.deleteById(id);
+    }
+
+
+
+    public int calculateMonthsPassed(LocalDate joiningDate) {
+        if (joiningDate == null) return 12;
+
+        LocalDate currentDate = LocalDate.now();
+        // Calculate total months passed
+        int monthsPassed = (currentDate.getYear() - joiningDate.getYear()) * 12 +
+                            currentDate.getMonthValue() - joiningDate.getMonthValue();
+        // Add 1 to include the joining month **only if joined on or before the 15th**
+        if (joiningDate.getDayOfMonth() <= 15) {
+            monthsPassed += 1;
+        }
+        // Ensure the minimum value is 0 (no negative leaves)
+        return Math.max(monthsPassed, 0);
+    }
+
+    // public int calculateAvailableLeaves(LocalDate joiningDate) {
+    //     LocalDate currentDate = LocalDate.now();
+    //     int initialLeaves = 1; // Initial leave
+    //     int creditedLeaves = 0;
+    //     long monthsBetween = Period.between(joiningDate, currentDate).toTotalMonths();
+    //     creditedLeaves = (int) monthsBetween;
+    //     if (joiningDate.getDayOfMonth() < 15) {
+    //         creditedLeaves++; // Credit for the joining month
+    //     }
+    //     return Math.min(initialLeaves + creditedLeaves, 12); // Cap at 12 leaves
+    // }
+}
