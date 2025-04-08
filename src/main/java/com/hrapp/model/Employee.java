@@ -1,12 +1,22 @@
 package com.hrapp.model;
 
-import jakarta.persistence.*;
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import java.time.LocalDate;
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 @Data
 @NoArgsConstructor
@@ -14,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @ToString
 @Entity
 @Table(name = "employees")
+
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,38 +53,29 @@ public class Employee {
     @Column(name = "updated_at")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate updatedAt;
+
+    @Column(name = "normal_leave_balance", nullable = false)
+    private Double leaves = 0.0;
+
+    @Column(name = "sick_leave_balance", nullable = false)
+    private Double sickLeaves = 5.0; // Default value
+
+    @Column(name = "lop_count", nullable = false)
+    private Double lopCount = 0.0;
     
-    private int leaves; // General leaves
-    private int sickLeaves; // Sick leaves
+    private boolean active = true; // Default is active
 
 
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDate.now();
         updatedAt = LocalDate.now();
+        active = true;
     }
     
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDate.now();
-    }
-
-    public void setLeaves(int leaves) {
-        this.leaves = leaves;
-    }
-
-    public void setSickLeaves(int sickLeaves) {
-        this.sickLeaves = sickLeaves;
-    }
-
-
-
-    public int getLeaves() {
-        return leaves;
-    }
-
-    public int getSickLeaves() {
-        return sickLeaves;
     }
 
 }

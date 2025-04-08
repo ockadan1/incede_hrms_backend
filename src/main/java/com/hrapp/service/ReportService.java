@@ -38,7 +38,9 @@ public class ReportService {
                         leave.getReason(),
                         leave.getLeaveDate() != null ? leave.getLeaveDate().toString() : null,
                         leave.getStartDate() != null ? leave.getStartDate().toString() : null,
-                        leave.getEndDate() != null ? leave.getEndDate().toString(): null
+                        leave.getEndDate() != null ? leave.getEndDate().toString(): null,
+                        leave.getNumberOfDays(),
+                        leave.getIsHalfDay()
                 ))
                 .collect(Collectors.toList());
     }
@@ -52,8 +54,10 @@ public class ReportService {
         private String leaveDate;
         private String startdate;
         private String endDate;
+        private int numberOfDays;
+        private boolean isHalfDay; // Add numberOfDays field
 
-        public EmployeeLeaveReport(String employeeId, String fullName, String department, String leaveType, String reason, String leaveDate,String startdate,String enddate) {
+        public EmployeeLeaveReport(String employeeId, String fullName, String department, String leaveType, String reason, String leaveDate, String startdate, String endDate, int numberOfDays, boolean isHalfDay) {
             this.employeeId = employeeId;
             this.fullName = fullName;
             this.department = department;
@@ -61,7 +65,9 @@ public class ReportService {
             this.reason = reason;
             this.leaveDate = leaveDate;
             this.startdate = startdate;
-            this.endDate = enddate;
+            this.endDate = endDate;
+            this.numberOfDays = numberOfDays; 
+            this.isHalfDay = isHalfDay; 
         }
 
         // Getters and Setters
@@ -121,6 +127,19 @@ public class ReportService {
             return endDate;
         }
 
+        public int getNumberOfDays() {
+            return numberOfDays;
+        }
+
+        public void setNumberOfDays(int numberOfDays) {
+            this.numberOfDays = numberOfDays;
+        }
         
-    }
+        public boolean isHalfDay() {
+            return isHalfDay;
+        }
+        public void setHalfDay(boolean isHalfDay) {
+            this.isHalfDay = isHalfDay;
+        }
+}
 }

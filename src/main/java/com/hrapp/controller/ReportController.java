@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hrapp.service.ReportService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 import java.util.List;
 
 @RestController
@@ -22,6 +24,7 @@ public class ReportController {
     private ReportService reportService;
 
     @GetMapping("/employee-leave/{employeeId}")
+    @Operation(summary = "Get Employee Leave Report", description = "Fetches the leave report for a specific employee.")
     public ResponseEntity<List<ReportService.EmployeeLeaveReport>> getEmployeeLeaveReport(@PathVariable String employeeId) {
         List<ReportService.EmployeeLeaveReport> report = reportService.getEmployeeLeaveReport(employeeId);
         return ResponseEntity.ok(report);

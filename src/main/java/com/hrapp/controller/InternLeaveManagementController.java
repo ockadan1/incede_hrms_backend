@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import com.hrapp.model.InternLeaveTransaction;
 import com.hrapp.service.InternLeaveManagementService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +28,13 @@ public class InternLeaveManagementController {
 
 
     @GetMapping("/{internId}")
+    @Operation (summary = "Get all leaves of an intern")
     public ResponseEntity<List<InternLeaveTransaction>> getInternLeaves(@PathVariable String internId) {
         return ResponseEntity.ok(internLeaveManagementService.getInternLeaves(internId));
     }
 
     @PostMapping("/apply")
+    @Operation (summary = "Apply for leave")
     public ResponseEntity<?> applyInternLeave(@RequestBody Map<String, Object> request) {
         try {
             String internId = request.get("internId").toString();
