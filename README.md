@@ -18,19 +18,16 @@ The Incede HRMS is the application for managing the Human Resource Management Sy
 ## Installation
 1. Clone the repository:
     ```
-    git clone https://github.com/your-repo/incede_hrms_backend.git
+    git clone https://github.com/Incede-Technologies-ai/incede_hrms_backend.git
     ```
 2. Navigate to the project directory:
     ```
     cd incede_hrms_backend
     ```
 3. Install dependencies:
-    ```
-    [Specify command, e.g., npm install, pip install -r requirements.txt, etc.]
-    ```
+    mvn clean install
+    mvn spring-boot:run
 4. Set up environment variables:
-    - Create a `.env` file in the root directory.
-    - Add the required environment variables as specified in `.env.example`.
 
 5. Run database migrations:
     ```
@@ -43,7 +40,7 @@ The Incede HRMS is the application for managing the Human Resource Management Sy
     ```
 
 ## API Documentation
-Detailed API documentation can be found at [link to API documentation or specify tool used, e.g., Swagger, Postman, etc.].
+(http://localhost:8080/swagger-ui/index.html)
 
 ## Contributing
 Contributions are welcome! Please follow these steps:
@@ -52,8 +49,6 @@ Contributions are welcome! Please follow these steps:
 3. Commit your changes and push to your fork.
 4. Submit a pull request.
 
-## License
-This project is licensed under the [Specify License, e.g., MIT License]. See the `LICENSE` file for details.
 
 ## Contact
 For any inquiries or support, please contact [Your Name/Team] at [Your Email Address].

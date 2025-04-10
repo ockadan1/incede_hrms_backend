@@ -1,17 +1,16 @@
 package com.hrapp.service;
 
 
-import com.hrapp.model.InternLeaveTransaction;
-import com.hrapp.model.Interns;
-import com.hrapp.repository.InternLeaveRepository;
-import com.hrapp.repository.InternRepository;
+import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import com.hrapp.model.InternLeaveTransaction;
+import com.hrapp.model.Interns;
+import com.hrapp.repository.InternLeaveRepository;
+import com.hrapp.repository.InternRepository;
 
 @Service
 public class InternLeaveManagementService {
@@ -45,17 +44,6 @@ public class InternLeaveManagementService {
         }
         return intern_Saved;
     }
-            
-    
-    // public void update_intern_table(String internId, int noOfLeaves, boolean isHalfDay) {
-    //     Interns interns  =  internrepository.findByInternId(internId).orElseThrow(() -> new RuntimeException("Intern not found with ID: " + internId));
-    //     System.out.println(interns.getFullName());
-    //     System.out.println(interns.getEmail());
-    //     double lopcont = interns.getLopCount();
-    //     interns.setLopCount(lopcont);
-    //     internrepository.save(interns);     
-    //     throw new UnsupportedOperationException("Unimplemented method 'update_intern_table'");
-    // }
 
     public void update_intern_table(String internId, int noOfLeaves, boolean isHalfDay) {
         Interns interns = internrepository.findByInternId(internId)
